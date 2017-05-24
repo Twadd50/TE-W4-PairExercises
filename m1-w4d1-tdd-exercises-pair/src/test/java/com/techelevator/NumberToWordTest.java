@@ -11,20 +11,16 @@ public class NumberToWordTest {
 	@Before
 	public void setUp(){
 		sut = new NumberToWord();
-	
 	}
 	
 	@Test
 	public void testConvertNumbersToText(){
-		
-		assertEquals("two hundred fifty seven thousand eight hundred sixty four", sut.numberText(257864));
+		assertEquals("five", sut.numberText(5));
 	}
 	
 	@Test
 	public void testConvertTextToNumber(){
-		
 		//assertEquals(0, sut.textConverter("zero"));
-		
 	}
 	
 
