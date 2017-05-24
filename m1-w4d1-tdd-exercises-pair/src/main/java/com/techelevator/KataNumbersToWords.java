@@ -4,66 +4,108 @@ public class KataNumbersToWords {
 
 	public String numberConverter(int number) {
 
-		String[] strOnes = { "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven",
-				"Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen", };
+		String[] strOnes = { "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven",
+				"twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", };
 
-		String[] strTens = { "Ten", "Twenty", "Thirty", "Fourty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety",
-				"Hundred" };
+		String[] strTens = { "ten", "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety"};
+		
 		String[] srHundreds = { "one hundred", "two hundred", "three hundred", "four hundred", "five hundred",
-				"six hundred", "seven hundred", "eight hundred", "nine hundred", "thousand", };
+				"six hundred", "seven hundred", "eight hundred", "nine hundred",};
 
-		String hundredThousandsPlace = null;
-		String tenThousandsPlace = null;
-		String oneThousandsPlace = null;
-		String hundredsPlace = null;
-		String tensPlace = null;
-		String onesPlace = null;
+		String hundredThousandsPlaceWord, tenThousandsPlaceWord, oneThousandsPlaceWord, hundredsPlaceWord, tensPlaceWord, onesPlaceWord;
+		int hundredThousands, tenThousands, oneThousands, hundreds, tens, ones;
+		
 
-		if (number > 1000) {
-			int thousands = number / 1000;
-			int result1 = number - (number * 1000);
-			if (thousands > 100) {
-				int hundredThousands = thousands / 100;
+		if(number >100000){
 
-				if (hundredThousands <= srHundreds.length) {
-					hundredThousandsPlace = srHundreds[hundredThousands - 1];
-				}
-				int result2 = thousands - (hundredThousands * 100);
-				if (result2 > 10) {
-					int tenThousands = result2 / 10;
-					if (tenThousands <= strTens.length) {
-						tenThousandsPlace = strTens[tenThousands - 1];
-					}
-					int result3 = result2 - (tenThousands * 10);
-					int oneThousands = result3;
-					if (oneThousands <= strOnes.length) {
-						oneThousandsPlace = strOnes[oneThousands - 1];
-					}
+			hundredThousands = number / 100000;
+				hundredThousandsPlaceWord = srHundreds[hundredThousands - 1];
+			
+			tenThousands = (number - (hundredThousands * 100000))/10000;	
+				tenThousandsPlaceWord = strTens[tenThousands - 1];
+				
+			oneThousands = ((number - (hundredThousands * 100000) - (tenThousands * 10000))/1000);
+				oneThousandsPlaceWord = strOnes[oneThousands - 1];	
+			
+			hundreds = ((number - (hundredThousands * 100000) - (tenThousands * 10000) - (oneThousands * 1000)) / 100);
+				hundredsPlaceWord = srHundreds[hundreds - 1];
+			
+			tens = ((number - (hundredThousands * 100000) - (tenThousands * 10000) - (oneThousands * 1000) - (hundreds * 100))/10);	
+				tensPlaceWord = strTens[tens - 1];
+			
+			ones = (number - (hundredThousands * 100000) - (tenThousands * 10000) - (oneThousands * 1000) - (hundreds * 100) - (tens * 10));
+				onesPlaceWord = strOnes[ones - 1];
+			
+			return hundredThousandsPlaceWord + " " + tenThousandsPlaceWord + " " + oneThousandsPlaceWord + " thousand " + hundredsPlaceWord + " " + tensPlaceWord + " " + onesPlaceWord;
 
-				}
-			}
-			if (result1 > 100) {
-				int hundreds = result1 / 100;
-				if (hundreds <= srHundreds.length) {
-					hundredsPlace = srHundreds[hundreds - 1];
-				}
-				int result4 = result1 - (hundreds * 100);
-				if (result4 > 10) {
-					int tens = result4 / 10;
-					if (tens <= strTens.length) {
-						tensPlace = strTens[tens - 1];
-					}
-					int ones = result4 - (tens * 10);
-					if (ones <= strOnes.length) {
-						onesPlace = strOnes[ones - 1];
-					}
-				}
-			}
+		}else if(number > 20000){
+			
+			tenThousands = number /10000;	
+				tenThousandsPlaceWord = strTens[tenThousands - 1];
+				
+			oneThousands = (number - (tenThousands * 10000))/1000;
+				oneThousandsPlaceWord = strOnes[oneThousands - 1];	
+			
+			hundreds = (number - (tenThousands * 10000) - (oneThousands * 1000)) / 100;
+				hundredsPlaceWord = srHundreds[hundreds - 1];
+			
+			tens = (number - (tenThousands * 10000) - (oneThousands * 1000)- (hundreds * 100))/10;	
+				tensPlaceWord = strTens[tens - 1];
+			
+			ones = (number - (tenThousands * 10000) - (oneThousands * 1000)- (hundreds * 100) - (tens * 10));
+				onesPlaceWord = strOnes[ones - 1];
+			
+			return tenThousandsPlaceWord + " " + oneThousandsPlaceWord + " thousand " + hundredsPlaceWord + " " + tensPlaceWord + " " + onesPlaceWord;
 
+
+		}else if (number > 1000) {
+			
+			oneThousands = number / 1000;
+				oneThousandsPlaceWord = strOnes[oneThousands - 1];	
+			
+			hundreds = (number - (oneThousands*1000)) / 100;
+				hundredsPlaceWord = srHundreds[hundreds - 1];
+			
+			tens = (number - (oneThousands*1000) - (hundreds * 100))/10;	
+				tensPlaceWord = strTens[tens - 1];
+			
+			ones = (number - (oneThousands*1000) - (hundreds * 100) - (tens * 10));
+				onesPlaceWord = strOnes[ones - 1];
+			
+			return oneThousandsPlaceWord + " thousand "  + hundredsPlaceWord + " " + tensPlaceWord + " " + onesPlaceWord;
+
+		}else if (number > 100){
+
+			hundreds = number / 100;
+				hundredsPlaceWord = srHundreds[hundreds - 1];
+			
+			tens = (number - (hundreds * 100))/10;	
+				tensPlaceWord = strTens[tens - 1];
+			
+			ones = (number - (hundreds * 100)) - (tens * 10);
+				onesPlaceWord = strOnes[ones - 1];
+			
+			return hundredsPlaceWord + " " + tensPlaceWord + " " + onesPlaceWord;
+
+		}else if(number > 19){
+			
+			tens = number / 10;	
+				tensPlaceWord = strTens[tens - 1];
+			
+			ones = number - (tens * 10);
+				onesPlaceWord = strOnes[ones - 1];
+			
+			return tensPlaceWord + " " + onesPlaceWord;
+
+
+		}else if (number > 0) {
+
+			onesPlaceWord = strOnes[number - 1];
+			return onesPlaceWord;
+		} else {
+			
+			return "zero";
 		}
-
-		return hundredThousandsPlace + " " + tenThousandsPlace + " " + oneThousandsPlace + " " + hundredsPlace + " "
-				+ tensPlace + " " + onesPlace;
 	}
 
 	public int textConverter(String text) {
